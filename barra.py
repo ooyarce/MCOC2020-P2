@@ -15,13 +15,13 @@ g = 9.81 #kg*m/s^2
 class Barra(object):
     def __init__(self, ni, nj, R, t, E, ρ, σy):
 	super(Barra, self).__init__()
-	self.ni = ni	
-	self.nj = nj
-	self.R = R
-	self.t = t
-	self.E = E
-	self.ρ = ρ
-	self.σy = σy
+    	self.ni = ni	
+    	self.nj = nj
+    	self.R = R
+    	self.t = t
+    	self.E = E
+    	self.ρ = ρ
+    	self.σy = σy
         
     def obtener_conectividad (self):
         return [self.ni,self.nj]
