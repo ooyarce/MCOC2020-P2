@@ -33,7 +33,7 @@ class Barra(object):
 		
     def calcular_largo(self, reticulado):
 		"""Devuelve el largo de la barra. """
- 		# xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
+ 	# xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
         # xj : Arreglo numpy de dimenson (3,) con coordenadas del nodo j
         xi= reticulado.obtener_coordenada_nodal(self.ni) #falta algo
         xj= reticulado.obtener_coordenada_nodal(self.nj) #falta algo
