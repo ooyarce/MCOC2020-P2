@@ -23,32 +23,32 @@ class Barra(object):
 		self.ρ = ρ
 		self.σy = σy
         
-    def obtener_conectividad (self):
-        return [self.ni,self.nj]
+	def obtener_conectividad (self):
+		return [self.ni,self.nj]
     
-    def calcular_area(self):
-        A = np.pi*(self.R**2) - np.pi*((self.R-self.t)**2)
-        # 2Pi*r*H
-        return A
+    	def calcular_area(self):
+		A = np.pi*(self.R**2) - np.pi*((self.R-self.t)**2)
+		# 2Pi*r*H
+		return A
 		
-    def calcular_largo(self, reticulado):
+   	def calcular_largo(self, reticulado):
 		"""Devuelve el largo de la barra. """
  		# xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
-        # xj : Arreglo numpy de dimenson (3,) con coordenadas del nodo j
-        xi= reticulado.obtener_coordenada_nodal(self.ni) #falta algo
-        xj= reticulado.obtener_coordenada_nodal(self.nj) #falta algo
-        dij= (xi-xj)
-        return np.sqrt (np.dot (dij,dij))
+       		 # xj : Arreglo numpy de dimenson (3,) con coordenadas del nodo j
+		xi= reticulado.obtener_coordenada_nodal(self.ni) #falta algo
+		xj= reticulado.obtener_coordenada_nodal(self.nj) #falta algo
+		dij= (xi-xj)
+		return np.sqrt (np.dot (dij,dij))
 
-    def calcular_peso(self, reticulado):
+    	def calcular_peso(self, reticulado):
 		"""Devuelve el largo de la barra. """
    # 		xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
 # 		xj : Arreglo numpy de dimenson (3,) con coordenadas del nodo j
 		
 
-        L= self.calcular_largo()
-        A= self.calcular_area()
-        return self.ρ* A * L * g
+		L= self.calcular_largo()
+		A= self.calcular_area()
+		return self.ρ* A * L * g
         
     
     
