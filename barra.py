@@ -8,9 +8,7 @@ Created on Sat Sep 26 19:17:27 2020
 import numpy as np
 import math
 
-
 g = 9.81 #kg*m/s^2
-
 
 class Barra(object):
     def __init__(self, ni, nj, R, t, E, ρ, σy):
@@ -33,7 +31,7 @@ class Barra(object):
 		
     def calcular_largo(self, reticulado):
 		"""Devuelve el largo de la barra. """
- 	# xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
+ 	    # xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
         # xj : Arreglo numpy de dimenson (3,) con coordenadas del nodo j
         xi= reticulado.obtener_coordenada_nodal(self.ni) #falta algo
         xj= reticulado.obtener_coordenada_nodal(self.nj) #falta algo
@@ -42,17 +40,10 @@ class Barra(object):
 
     def calcular_peso(self, reticulado):
 		"""Devuelve el largo de la barra. """
-   # 		xi : Arreglo numpy de dimenson (3,) con coordenadas del nodo i
-   # 		xj : Arreglo numpy de dimenson (3,) con coordenadas del nodo j
-		
-
         L= self.calcular_largo()
         A= self.calcular_area()
         return self.ρ* A * L * g
         
-    
-    
-    
 from reticulado import Reticulado
 from barra import Barra
 from graficar2d import ver_reticulado_2d
