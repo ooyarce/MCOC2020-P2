@@ -34,3 +34,14 @@ class Reticulado(object):
     
     def obtener_barras(self):
         return self.barras
+    
+    def __str__(self):
+        s = "nodos\n"  
+        for n in range(self.Nnodos):
+            s += f" {n} : ( {self.xyz[n,0]}, {self.xyz[n,1]}, {self.xyz[n,2]} )\n "
+        s += "\n"
+        s += "barras: \n"
+        for b in range(len(self.barras)):
+            s+=f"{b} : [{self.barras[b].ni} {self.barras[b].nj}] \n"
+        return s
+        
