@@ -4,5 +4,5 @@ Diseño Estructural Optimo aplicando Programación orientada a objetos
 Integrantes:
 
 - Paulina Guerra
-- Omar Oyarce
+- Omar Oyarce (jefe)
 - Exequiel Vial
