@@ -54,7 +54,7 @@ class Reticulado(object):
         s += "\n"
         s += "barras: \n"
         for b in range(len(self.barras)):
-            s+=f"{b} : [{self.barras[b].ni}, {self.barras[b].nj}] \n"
+            s+=f"{b} : [{self.barras[b].ni} {self.barras[b].nj}] \n"
         return s
          
 
