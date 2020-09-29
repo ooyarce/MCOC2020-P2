@@ -36,7 +36,7 @@ class Barra(object):
 
     def calcular_peso(self, reticulado):
         """Devuelve el peso de la barra. """
-        L= self.calcular_largo()
+        L= self.calcular_largo(reticulado)
         A= self.calcular_area()
         peso = (self.ρ* A * L * g)
         return  peso
