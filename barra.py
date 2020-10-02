@@ -83,7 +83,7 @@ class Barra(object):
      # Vector evaluado en el ángulo de la barra
         Tteta= np.array ([[-cos_teta],[-sin_teta],[cos_teta],[sin_teta]])
     # Matriz de rigidez:
-        ke= (Tteta.T @ Tteta) * k
+        ke= (Tteta @ Tteta.T) * k
                 
         return ke
 
