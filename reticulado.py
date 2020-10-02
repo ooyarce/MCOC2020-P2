@@ -84,44 +84,46 @@ class Reticulado(object):
         return self.K, self.f 
     
     def resolver_sistema(self):
-        """Resuelve el sistema de ecuaciones.
-        La solucion queda guardada en self.u
-        """
-
-        # 0 : Aplicar restricciones
+        
+        K = self.K
+        f = self.f
         Ngdl = self.Nnodos * self.Ndimensiones
+        u = np.arange(Ngdl)
         gdl_libres = np.arange(Ngdl)
-        gdl_restringidos = []
+        gdl_restringidos_lista = []
+        f_list = []
 
-        #Identificar gdl_restringidos y llenar u 
-        # en valores conocidos.
-        #
-        # Hint: la funcion numpy.setdiff1d es util
-
-
-        #Agregar cargas nodales a vector de cargas 
+        for nodo in self.restricciones:
+            nodo_dir_i = 2*nodo
+            nodo_dir_j = 2*nodo + 1  
+            if len(self.restricciones[nodo]) == 1:
+                gdl_restringidos_lista.append(nodo_dir_j)
+                u[nodo_dir_j] = 0
+            else:
+                gdl_restringidos_lista.append(nodo_dir_i)
+                gdl_restringidos_lista.append(nodo_dir_j)
+                u[nodo_dir_i] = 0
+                u[nodo_dir_j] = 0
+        
         for nodo in self.cargas:
             for carga in self.cargas[nodo]:
                 gdl = carga[0]
                 valor = carga[1]
                 gdl_global = 2*nodo + gdl
+                self.f[gdl_global] += valor
+               
+        gdl_libres = np.setdiff1d(gdl_libres,gdl_restringidos_lista)
+        
+        for carga in gdl_libres:
+            f_list.append(f[carga])
                 
-
-
-        #1 Particionar:
-        #       K en Kff, Kfc, Kcf y Kcc.
-        #       f en ff y fc
-        #       u en uf y uc
-        
-
-        # Resolver para obtener uf -->  Kff uf = ff - Kfc*uc
-        
-        #Asignar uf al vector solucion
+        ff = f_list
+        Kff = K[np.ix_(gdl_libres,gdl_libres)]
+        uf = solve(Kff,ff)
         self.u[gdl_libres] = uf
-
-        #Marcar internamente que se tiene solucion
         self.tiene_solucion = True
-
+        return self.u
+    
     def obtener_desplazamiento_nodal(self, n):
         """Entrega desplazamientos en el nodo n como un vector numpy de (2x1) o (3x1)
         """
