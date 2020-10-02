@@ -6,3 +6,7 @@ Integrantes:
 - Paulina Guerra
 - Omar Oyarce (jefe)
 - Exequiel Vial
+
+** Resultado Entrega 2 ** 
+
+![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/result.png?raw=true)
