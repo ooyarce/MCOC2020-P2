@@ -109,7 +109,7 @@ class Barra(object):
         ret: instancia de objeto tipo reticulado
         """
         L= self.calcular_largo(ret)
-        A= self.calcular_area(ret)
+        A= self.calcular_area()
         k= self.E * A/L
         
         ni=self.ni
