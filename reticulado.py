@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep 26 19:39:22 2020
-
-@author: pauli
-"""
-
 import numpy as np
 from scipy.linalg import solve
 
@@ -92,17 +84,12 @@ class Reticulado(object):
             
             for i in range (len(d)):
                 p = d[i]
-                print(p)
                 for j in range(len(d)):
                     q = d[j]
-                    print (q)
                     ke = b.obtener_rigidez(self)
-                    print (ke)
                     self.K[p,q] += ke[i,j]
-                    
                     fe = b.obtener_vector_de_cargas(self)
-                self.f[p] += fe[i]
-		
+                self.f[p] += fe[i]	
         return self.K, self.f 
     
     def resolver_sistema(self):
