@@ -135,7 +135,7 @@ for i in barras_a_rediseñar:
 ret.ensamblar_sistema()
 ret.resolver_sistema()
 f1 = ret.recuperar_fuerzas()
-fu1=ret.recuperar_factores_de_utilizacionutilizacion(f)
+fu1=ret.recuperar_factores_de_utilizacion(f)
 
 peso = ret.calcular_peso_total()
 

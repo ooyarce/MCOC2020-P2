@@ -90,8 +90,8 @@ ver_reticulado_3d(ret_D,
     opciones_barras = {
         "color_barras_por_dato": True,
         "ver_numeros_de_barras": False,
-        "ver_dato_en_barras": True,
         "dato": f_2,
+        "ver_dato_en_barras": True,
         "color_fondo": [1,1,1,0.4]
     }, 
     llamar_show=False,
@@ -158,5 +158,5 @@ plt.show()
 
 
 
-Fu= #definir
-ret_D.rediseñar (Fu)
+# Fu= #definir
+# ret_D.rediseñar (Fu)

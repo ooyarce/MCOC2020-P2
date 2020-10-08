@@ -29,8 +29,12 @@ opc_barras_default = {
     "color_barras" : [138/255,89/255,0/255],#8F652F
     "grosor_barras" : 2,
     "ver_numeros_de_barras" : True,
-    "color_barras_por_dato" : False,
-    "ver_dato_en_barras" : False,
+    "color_barras_por_dato" : True,
+    "ver_dato_en_barras" : True,
+    "color_barras_por_fuerza" : True,
+    "ver_fuerza_en_barras" : False,
+    "formato_fuerza_en_barras" : "4.2f",
+    "color_barras_por_fu" : True,
     "formato_dato_en_barras" : "4.2f",
     "formato_factor_utilización" : "4.2f",
     "color_barra_compresion" : np.array([1, 0, 0]),
@@ -98,23 +102,39 @@ def graficar_barras(ret, fig, opciones):
 
 
     if opciones["usar_posicion_deformada"]: 
-        if opciones["datos_desplazamientos_nodales"] is None:
-            u = ret.u
-        else:
-            u = opciones["datos_desplazamientos_nodales"]
-        factor = opciones ["factor_amplificacion_deformada"]
-        uvw = u.reshape((-1,3))
-        xyz = xyz +  factor*uvw
+        # if opciones["datos_desplazamientos_nodales"] is None:
+        #     u = ret.u
+        # else:
+        #     u = opciones["datos_desplazamientos_nodales"]
+        # factor = opciones ["factor_amplificacion_deformada"]
+        # uvw = u.reshape((-1,3))
+        # xyz = xyz +  factor*uvw
         
-       # factor = opciones ["factor_amplificacion_deformada"]
-       #  uv = ret.u.reshape((-1,3))
-       #  xyz += factor*uv
+       factor = opciones ["factor_amplificacion_deformada"]
+       uv = ret.u.reshape((-1,3))
+       xyz += factor*uv
 
-    if opciones["color_barras_por_dato"]:
+    if opciones["color_barras_por_fuerza"]:
         f= ret.recuperar_fuerzas()
         # fu= 0*f
         # for i,b in enumerate (ret.obtener_barras()):
             # fu[i]=b.obtener_factor_utilizacion(f[i])
+            
+        
+        # f = opciones["dato"]
+        fmax = f.max()
+        fmin = f.min()
+        # tracción:
+        c_trac = opciones["color_barra_traccion"]
+        # Compresión:
+        c_comp = opciones["color_barra_compresion"]
+        c_cero = opciones["color_barra_cero"]
+    
+    if opciones["color_barras_por_fu"]:
+        f= ret.recuperar_fuerzas()
+        fu= 0*f
+        for i,b in enumerate (ret.obtener_barras()):
+            fu[i]=b.obtener_factor_utilizacion(f[i])
             
         
         # f = opciones["dato"]
@@ -136,7 +156,7 @@ def graficar_barras(ret, fig, opciones):
         
     c = opciones["color_barras"]
     fmt = opciones["formato_fuerza_en_barras"]
-    txt_case = int(opciones["ver_numeros_de_barras"]) + 2*int(opciones["ver_dato_en_barras"])
+    txt_case = int(opciones["ver_numeros_de_barras"]) + 2*int(opciones["ver_fuerza_en_barras"])
     
     for i,b in enumerate(ret.obtener_barras()):
         
@@ -145,7 +165,7 @@ def graficar_barras(ret, fig, opciones):
         y =  xyz[nodos,1]
         z =  xyz[nodos,2]
 
-        if opciones["color_barras_por_dato"] or  opciones ["color_barras_por_fu"]:
+        if opciones["color_barras_por_fuerza"] or  opciones ["color_barras_por_fu"]:
                 
             if f[i] < 0:
                 xi = 1-(f[i]- fmin)/(0 - fmin)
