@@ -103,7 +103,8 @@ def graficar_barras(ret, fig, opciones):
         factor = opciones ["factor_amplificacion_deformada"]
         uv = ret.u.reshape((-1,3))
         xyz += factor*uv
-        
+        # Codigo profe:
+        # ((((
         # if opciones["datos_desplazamientos_nodales"] is None:
         #     u = ret.u
         # else:
@@ -111,6 +112,7 @@ def graficar_barras(ret, fig, opciones):
         # factor = opciones ["factor_amplificacion_deformada"]
         # uvw = u.reshape((-1,3))
         # xyz = xyz +  factor*uvw
+        # ))))
         
         
 
