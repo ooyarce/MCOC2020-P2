@@ -67,9 +67,9 @@ ver_reticulado_3d(ret_D,
         "factor_amplificacion_deformada": 60.,
     },
     opciones_barras = {
-        "color_barras_por_fu": True,
+        "color_barras_por_dato": True,
         "ver_numeros_de_barras": False,
-        "ver_fuerza_en_barras": True,
+        "ver_dato_en_barras": True,
         "dato": f_1,
         "color_fondo": [1,1,1,0.4]
     }, 
@@ -88,9 +88,9 @@ ver_reticulado_3d(ret_D,
         "factor_amplificacion_deformada": 60.,
     },
     opciones_barras = {
-        "color_barras_por_fu": True,
+        "color_barras_por_dato": True,
         "ver_numeros_de_barras": False,
-        "ver_fuerza_en_barras": True,
+        "ver_dato_en_barras": True,
         "dato": f_2,
         "color_fondo": [1,1,1,0.4]
     }, 
@@ -118,9 +118,9 @@ ver_reticulado_3d(ret_D,
     },
     opciones_barras = {
         
-        "color_barras_por_fu": True,
+        "color_barras_por_dato": True,
         "ver_numeros_de_barras": False,
-        "ver_fu_en_barras": True, 
+        "ver_dato_en_barras": True, 
         "dato": FU_caso1,
         "color_fondo": [1,1,1,0.4]
     }, 
@@ -139,9 +139,9 @@ ver_reticulado_3d(ret_D,
         "factor_amplificacion_deformada": 60.,
     },
     opciones_barras = {
-        "color_barras_por_fu": True,
+        "color_barras_por_dato": True,
         "ver_numeros_de_barras": False,
-        "ver_fu_en_barras": True,
+        "ver_dato_en_barras": True,
         "dato": FU_caso2,
         "color_fondo": [1,1,1,0.4]
     }, 

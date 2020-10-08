@@ -106,6 +106,7 @@ print(f"peso = {peso}")
 ret.ensamblar_sistema()
 ret.resolver_sistema()
 f= ret.recuperar_fuerzas()
+fu= ret.recuperar_factores_de_utilizacion(f)
 
 
 ver_reticulado_3d(ret, 
@@ -114,11 +115,13 @@ ver_reticulado_3d(ret,
         "factor_amplificacion_deformada": 30.,
     },
     opciones_barras = {
-        "color_barras_por_fu": True,
-        "ver_numeros_de_barras": True,
-        "ver_fuerza_en_barras": True
+        "color_barras_por_dato": True,
+        "ver_numeros_de_barras": False,
+        "ver_dato_en_barras": True,
+        "dato": fu,
+        "color_fondo": [1,1,1,0.4]
     })
-
+        
 
 # Se cambia el area a las barras elegidas
 # Barras con factor 0.32
@@ -132,10 +135,12 @@ for i in barras_a_rediseñar:
 ret.ensamblar_sistema()
 ret.resolver_sistema()
 f1 = ret.recuperar_fuerzas()
+fu1=ret.recuperar_factores_de_utilizacionutilizacion(f)
 
 peso = ret.calcular_peso_total()
 
 print(f"peso2 = {peso}")
+
 
 ver_reticulado_3d(ret, 
     opciones_nodos = {
@@ -143,8 +148,9 @@ ver_reticulado_3d(ret,
         "factor_amplificacion_deformada": 30.,
     },
     opciones_barras = {
-        "color_barras_por_fu": True,
-        "ver_numeros_de_barras": True,
-        "ver_fuerza_en_barras": True
-    
+        "color_barras_por_dato": True,
+        "ver_numeros_de_barras": False,
+        "ver_dato_en_barras": True,
+        "dato": fu1,
+        "color_fondo": [1,1,1,0.4]
     })

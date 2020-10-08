@@ -23,25 +23,26 @@ opc_nodos_default = {
     "factor_amplificacion_deformada": 1.,
 }
 
-#Opciones para barras:
+#Opciones para barras
 opc_barras_default = {
     "estilo_barras" : "-",
     "color_barras" : [138/255,89/255,0/255],#8F652F
     "grosor_barras" : 2,
     "ver_numeros_de_barras" : True,
-    "color_barras_por_fuerza" : False,
-    "ver_fuerza_en_barras" : False,
-    "ver_factor_utilización" : False,
+    "color_barras_por_dato" : False,
+    "ver_dato_en_barras" : False,
+    "formato_dato_en_barras" : "4.2f",
     "formato_factor_utilización" : "4.2f",
-    "formato_fuerza_en_barras" : "4.2f",
-    "color_barras_por_fu" : False,
     "color_barra_compresion" : np.array([1, 0, 0]),
     "color_barra_traccion" : np.array([0, 0, 1]),
     "color_barra_cero" : np.array([0, 0, 0]),
     "color_fondo" : np.array([1, 1, 1, 0.5]),
     "usar_posicion_deformada": False,
     "factor_amplificacion_deformada": 1.,
+    "datos_desplazamientos_nodales": None,
 }
+
+
 
 def graficar_nodos(ret, fig,  opciones):
 
@@ -53,10 +54,15 @@ def graficar_nodos(ret, fig,  opciones):
     # plt.figure(fig)
     # Nodos
     xyz = ret.obtener_nodos()
-
+    
+    
     if opciones["usar_posicion_deformada"]: 
+        if opciones["datos_desplazamientos_nodales"] is None:
+            u = ret.u
+        else:
+            u = opciones["datos_desplazamientos_nodales"]
         factor = opciones ["factor_amplificacion_deformada"]
-        uvw = ret.u.reshape((-1,3))
+        uvw = u.reshape((-1,3))
         xyz = xyz +  factor*uvw
     
     ax = fig.gca()
@@ -67,6 +73,9 @@ def graficar_nodos(ret, fig,  opciones):
         markeredgecolor=opciones["color_borde_nodos"],
         linestyle="",
         )
+    
+    
+
 
     if opciones["ver_numeros_de_nodos"]:
         for n in range(xyz.shape[0]):
@@ -83,12 +92,25 @@ def graficar_barras(ret, fig, opciones):
 
     xyz = ret.obtener_nodos()[:,0:3]
 
-    if opciones["usar_posicion_deformada"]: 
-        factor = opciones ["factor_amplificacion_deformada"]
-        uv = ret.u.reshape((-1,3))
-        xyz += factor*uv
 
-    if opciones["color_barras_por_fuerza"]:
+
+
+
+
+    if opciones["usar_posicion_deformada"]: 
+        if opciones["datos_desplazamientos_nodales"] is None:
+            u = ret.u
+        else:
+            u = opciones["datos_desplazamientos_nodales"]
+        factor = opciones ["factor_amplificacion_deformada"]
+        uvw = u.reshape((-1,3))
+        xyz = xyz +  factor*uvw
+        
+       # factor = opciones ["factor_amplificacion_deformada"]
+       #  uv = ret.u.reshape((-1,3))
+       #  xyz += factor*uv
+
+    if opciones["color_barras_por_dato"]:
         f= ret.recuperar_fuerzas()
         # fu= 0*f
         # for i,b in enumerate (ret.obtener_barras()):
@@ -104,29 +126,17 @@ def graficar_barras(ret, fig, opciones):
         c_comp = opciones["color_barra_compresion"]
         c_cero = opciones["color_barra_cero"]
 
+
+
    
-    if opciones ["color_barras_por_fu"]:
-        f=ret.recuperar_fuerzas()
-        fu= 0*f
-        
-        for i,b in enumerate(ret.obtener_barras()):
-            fu[i]=b.obtener_factor_utilizacion(f[i])
-        
-        fmax = f.max()
-        fmin = f.min()
-        # tracción:
-        c_trac = opciones["color_barra_traccion"]
-        # Compresión:
-        c_comp = opciones["color_barra_compresion"]
-        c_cero = opciones["color_barra_cero"]
-        
      
+        
         
      
         
     c = opciones["color_barras"]
     fmt = opciones["formato_fuerza_en_barras"]
-    txt_case = int(opciones["ver_numeros_de_barras"]) + 2*int(opciones["ver_fuerza_en_barras"])
+    txt_case = int(opciones["ver_numeros_de_barras"]) + 2*int(opciones["ver_dato_en_barras"])
     
     for i,b in enumerate(ret.obtener_barras()):
         
@@ -135,7 +145,7 @@ def graficar_barras(ret, fig, opciones):
         y =  xyz[nodos,1]
         z =  xyz[nodos,2]
 
-        if opciones["color_barras_por_fuerza"] or  opciones ["color_barras_por_fu"]:
+        if opciones["color_barras_por_dato"] or  opciones ["color_barras_por_fu"]:
                 
             if f[i] < 0:
                 xi = 1-(f[i]- fmin)/(0 - fmin)
@@ -198,7 +208,9 @@ def ver_reticulado_3d(ret, fig=1,
     if opciones_nodos["usar_posicion_deformada"]:
         opciones_barras["usar_posicion_deformada"]=opciones_nodos["usar_posicion_deformada"]
         opciones_barras["factor_amplificacion_deformada"]=opciones_nodos["factor_amplificacion_deformada"]
-
+        opciones_barras["datos_desplazamientos_nodales"]=opciones_nodos["datos_desplazamientos_nodales"]
+    
+    
     if ver_barras:
         graficar_barras(ret, fig, opciones_barras)
 
