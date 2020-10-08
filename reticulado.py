@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Sep 26 19:39:22 2020
+
+@author: pauli
+"""
+    
 import numpy as np
 from scipy.linalg import solve
 
@@ -54,8 +61,8 @@ class Reticulado(object):
             self.restricciones[nodo].append([gdl,valor])
 
     def agregar_fuerza(self, nodo, gdl, valor):
-        """Agrega una restriccion, dado el nodo, grado de libertad y valor 
-        del la fuerza en la direccion de dicho GDL
+        """Agrega  una fuerza al sistema en el 'nodo',
+        y gdl especificaddos con el 'valor' dado
         """
         if nodo not in self.cargas:
             self.cargas[nodo] = [[gdl,valor]]
@@ -66,73 +73,96 @@ class Reticulado(object):
         """Ensambla el sistema de ecuaciones"""
         
         Ngdl = self.Nnodos * self.Ndimensiones
+        
         self.K = np.zeros((Ngdl,Ngdl), dtype=np.double)
         self.f = np.zeros((Ngdl), dtype=np.double)
         self.u = np.zeros((Ngdl), dtype=np.double)
 		
-		#Implementar
-        for b in self.barras:
-            ni = b.ni
-            nj = b.nj
-            d = [2*ni, (2*ni)+1, 2*nj, (2*nj)+1]
+		#Iterar sobre las barras 
+        for i,b in enumerate (self.barras):
+            ke = b.obtener_rigidez(self)
+            fe = b.obtener_vector_de_cargas(self)
             
-            for i in range (len(d)):
-                p = d[i]
-                for j in range(len(d)):
-                    q = d[j]
-                    ke = b.obtener_rigidez(self)
-                    self.K[p,q] += ke[i,j]
-                    
-                    fe = b.obtener_vector_de_cargas(self)
-                self.f[p] += fe[i]
-		
-        return self.K, self.f 
+            ni,nj= b.obtener_conectividad()
+            
+            if self.Ndimensiones==2:
+                d= [2*ni, 2*ni+1 , 2*nj, 2*nj+1]
+            else:
+                d= [3*ni, 3*ni+1 , 3*ni+2, 3*nj, 3*nj+1, 3*nj+2]
+            print (f"i: ke= {ke}\n d= {d}\n fe={fe}")
 
+            for i in range(self.Ndimensiones*2):
+                p= d[i]
+                for j in range(self.Ndimensiones*2):
+                    q = d[j]
+                    self.K[p,q] += ke[i,j]
+                self.f[p] = fe[i]
+                
+                
+                
+    
     def resolver_sistema(self):
         
-        K = self.K
-        f = self.f
+        # 0 : Aplicar restricciones
         Ngdl = self.Nnodos * self.Ndimensiones
-        u = np.arange(Ngdl)
         gdl_libres = np.arange(Ngdl)
-        gdl_restringidos_lista = []
-        f_list = []
+        gdl_restringidos = []
+
+		#Pre-llenar el vector u
 
         for nodo in self.restricciones:
-            nodo_dir_i = 2*nodo
-            nodo_dir_j = 2*nodo + 1  
-            if len(self.restricciones[nodo]) == 1:
-                gdl_restringidos_lista.append(nodo_dir_j)
-                u[nodo_dir_j] = 0
-            else:
-                gdl_restringidos_lista.append(nodo_dir_i)
-                gdl_restringidos_lista.append(nodo_dir_j)
-                u[nodo_dir_i] = 0
-                u[nodo_dir_j] = 0
-        
+            for restriccion in self.restricciones[nodo]:
+                gdl = restriccion[0]
+                valor = restriccion[1]
+                gdl_global = self.Ndimensiones*nodo + gdl
+                self.u[gdl_global] = valor
+                gdl_restringidos.append(gdl_global)
+
+		# con gdl_restringidos encuentro  gdl_libres
+        gdl_restringidos = np.array(gdl_restringidos)
+        gdl_libres = np.setdiff1d(gdl_libres, gdl_restringidos)
         for nodo in self.cargas:
             for carga in self.cargas[nodo]:
                 gdl = carga[0]
                 valor = carga[1]
-                gdl_global = 2*nodo + gdl
-                self.f[gdl_global] += valor
-                
-        gdl_libres = np.setdiff1d(gdl_libres,gdl_restringidos_lista)
-        
-        for carga in gdl_libres:
-            f_list.append(f[carga])
-                
-        ff = f_list
-        Kff = K[np.ix_(gdl_libres,gdl_libres)]
-        uf = solve(Kff,ff)
+                gdl_global = self.Ndimensiones*nodo + gdl
+                self.f[gdl_global] = valor
+
+
+		#1 Particionar:
+
+
+        Kff = self.K[np.ix_(gdl_libres, gdl_libres)]
+        Kfc = self.K[np.ix_(gdl_libres, gdl_restringidos)]
+        Kcf = Kfc.T
+        Kcc = self.K[np.ix_(gdl_restringidos, gdl_restringidos)]
+ 
+        uf = self.u[gdl_libres]
+        uc = self.u[gdl_restringidos]
+
+        ff = self.f[gdl_libres]
+        fc = self.f[gdl_restringidos]
+
+		# Solucionar Kff uf = ff
+        uf = solve(Kff, ff - Kfc @ uc)
+
         self.u[gdl_libres] = uf
-        self.tiene_solucion = True
-        return self.u
+
+        self.has_solution = True
+        
+        
+        
         
     def obtener_desplazamiento_nodal(self, n):
         """Entrega desplazamientos en el nodo n como un vector numpy de (2x1) o (3x1)
         """
-        dofs = [2*n, 2*n+1]
+        if self.Ndimensiones==2:
+            dofs = [2*n, 2*n+1]
+        elif self.Ndimensiones==3:
+            dofs = [3*n, 3*n+1,3*n+2]
+        else:
+            print (f"Error en número de dimensiones. Ndimensiones= {self.Ndimesiones==2}"")")
+            
         return self.u[dofs]
 
     def recuperar_fuerzas(self):
@@ -141,6 +171,23 @@ class Reticulado(object):
             fuerzas[i] = b.obtener_fuerza(self)
 
         return fuerzas
+
+    def recuperar_factores_de_utilizacion(self, f):
+        FU = np.zeros((len(self.barras)), dtype=np.double)
+        for i,b in enumerate(self.barras):
+            FU[i] = b.obtener_factor_utilizacion(f[i])
+
+        return FU
+    def rediseñar(self, Fu, ϕ=0.9):
+        for i,b in enumerate(self.barras):
+            b.rediseñar(Fu[i], self, ϕ)
+
+
+
+
+
+
+
 
     def __str__(self):
         s = "nodos:\n"
@@ -151,20 +198,20 @@ class Reticulado(object):
         s += "barras:\n"
         for i, b in enumerate(self.barras):
             n = b.obtener_conectividad()
-            s += f" {i} : [ {n[0]} {n[1]} ] \n"
+            s += f" {i} : [ {n[0]} {n[1]} ] \n"  
         s += "\n\n"
-        
+		
         s += "restricciones:\n"
         for nodo in self.restricciones:
             s += f"{nodo} : {self.restricciones[nodo]}\n"
         s += "\n\n"
-        
+		
         s += "cargas:\n"
         for nodo in self.cargas:
-            s += f"{nodo} : {self.cargas[nodo]}\n"
+            s+= f"{nodo} : {self.cargas[nodo]}\n"
         s += "\n\n"
 
-        if self.tiene_solucion:
+        if self.has_solution:
             s += "desplazamientos:\n"
             if self.Ndimensiones == 2:
                 uvw = self.u.reshape((-1,2))
@@ -172,11 +219,32 @@ class Reticulado(object):
                     s += f"  {n} : ( {uvw[n,0]}, {uvw[n,1]}) \n "
         s += "\n\n"
 
-        if self.tiene_solucion:
+        if self.has_solution:
             f = self.recuperar_fuerzas()
             s += "fuerzas:\n"
             for b in range(len(self.barras)):
                 s += f"  {b} : {f[b]}\n"
         s += "\n"
-
+        s += f"Ndimensiones = {self.Ndimensiones}"
+        
         return s
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
