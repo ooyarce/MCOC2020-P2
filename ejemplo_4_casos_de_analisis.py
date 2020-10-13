@@ -158,5 +158,46 @@ plt.show()
 
 
 
-# Fu= #definir
+# REDISEÑAR:
+# Fu= #definir # Escribir Factor de utilización por cada barra
 # ret_D.rediseñar (Fu)
+    
+    
+    
+# ret_D.rediseñar()    
+# ret_L.rediseñar()  
+    
+    # iMPLEMENTAR
+    
+    
+    
+# barras_a_rediseñar =[]  # Elegir las barras
+# barras_casoD= ret_D.obtener_barras()
+# barras_casoL=ret_L.obtener_barras()
+
+
+
+
+
+
+
+#Peso propio
+ret_D.ensamblar_sistema()
+ret_D.resolver_sistema()
+f_D = ret_D.recuperar_fuerzas()
+
+#Carga Viva
+ret_L.ensamblar_sistema()
+ret_L.resolver_sistema()
+f_L = ret_L.recuperar_fuerzas()
+
+#Combinaciones de carga
+f_1 = 1.4*f_D           #Combinacion 1
+f_2 = 1.2*f_D + 1.6*f_L #Combinacion 2
+
+# Calcular factores 
+FU_caso1_red = ret_D.recuperar_factores_de_utilizacion(f_1)
+FU_caso2_red = ret_D.recuperar_factores_de_utilizacion(f_2)
+
+
+
