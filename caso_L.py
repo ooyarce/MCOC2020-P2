@@ -34,8 +34,8 @@ def caso_L():
     H = 3.5 *m
 	
     q  = 400*kgf/m**2
-    F = q*L*B
-    F  = F/4
+    F = q*L*B/4
+   
 	#Inicializar modelo
     ret = Reticulado()
 	
@@ -112,13 +112,13 @@ def caso_L():
     ret.agregar_restriccion(0, 1, 0)
     ret.agregar_restriccion(0, 2, 0)
     
-    ret.agregar_fuerza(0, 2, -F)
-    ret.agregar_fuerza(1, 2, -F)
-    ret.agregar_fuerza(2, 2, -F)
-    ret.agregar_fuerza(3, 2, -F)
-    ret.agregar_fuerza(7, 2, -F)
-    ret.agregar_fuerza(8, 2, -F)
-    ret.agregar_fuerza(9, 2, -F)
-    ret.agregar_fuerza(10, 2, -F)
+    ret.agregar_fuerza(0, 2,     -F)
+    ret.agregar_fuerza(1, 2, -(2*F))
+    ret.agregar_fuerza(2, 2, -(2*F))
+    ret.agregar_fuerza(3, 2,     -F)
+    ret.agregar_fuerza(7, 2,     -F)
+    ret.agregar_fuerza(8, 2, -(2*F))
+    ret.agregar_fuerza(9, 2, -(2*F))
+    ret.agregar_fuerza(10, 2,    -F)
     
     return ret
