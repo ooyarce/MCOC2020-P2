@@ -63,18 +63,13 @@ def graficar_nodos(ret, fig,  opciones):
     xyz = ret.obtener_nodos()
 
     if opciones["usar_posicion_deformada"]: 
-        factor = opciones ["factor_amplificacion_deformada"]
-        uvw = ret.u.reshape((-1,3))
-        xyz = xyz +  factor*uvw
-        
-        # Código profe
-        # ((((((
-        # if opciones["datos_desplazamientos_nodales"] is None:
-        #     u = ret.u
-        # else:
-        #     u = opciones["datos_desplazamientos_nodales"]
-        # ))))))
-    
+        if opciones["datos_desplazamientos_nodales"] is None:
+             u = ret.u
+        else:
+             u = opciones["datos_desplazamientos_nodales"]
+             factor = opciones ["factor_amplificacion_deformada"]
+             uvw=u.reshape((-1,3))
+             xyz= xyz+ factor*uvw    
     ax = fig.gca()
 
     ax.plot(xyz[:,0], xyz[:,1], xyz[:,2],
@@ -100,19 +95,19 @@ def graficar_barras(ret, fig, opciones):
     xyz = ret.obtener_nodos()[:,0:3]
 
     if opciones["usar_posicion_deformada"]: 
-        factor = opciones ["factor_amplificacion_deformada"]
-        uv = ret.u.reshape((-1,3))
-        xyz += factor*uv
-        # Codigo profe:
-        # ((((
-        # if opciones["datos_desplazamientos_nodales"] is None:
-        #     u = ret.u
-        # else:
-        #     u = opciones["datos_desplazamientos_nodales"]
         # factor = opciones ["factor_amplificacion_deformada"]
-        # uvw = u.reshape((-1,3))
-        # xyz = xyz +  factor*uvw
-        # ))))
+        # uv = ret.u.reshape((-1,3))
+        # xyz += factor*uv
+        
+       
+        if opciones["datos_desplazamientos_nodales"] is None:
+            u = ret.u
+        else:
+            u = opciones["datos_desplazamientos_nodales"]
+        factor = opciones ["factor_amplificacion_deformada"]
+        uvw = u.reshape((-1,3))
+        xyz = xyz +  factor*uvw
+        
         
         
 
