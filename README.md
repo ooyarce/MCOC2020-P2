@@ -12,6 +12,7 @@ Integrantes:
 ![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/result.png?raw=true)
 
 **README ESCRITO POR EXEQUIEL VIAL, LO SUBIÓ OMAR PORQUE EXEQUIEL TUVO PROBLEMAS AL SUBIRLO**
+
 **Escoja 5 barras interesantes del reticulado (identificadas por sus nodos) y manualmente realice el rediseño, buscando minimizar el peso de la barra y cumplir con FU < 1.0 comparando con los resultados de su programa.**
 Las barras que como grupo elegimos para rediseñar son las:
 -	0-1
