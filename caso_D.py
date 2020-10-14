@@ -28,12 +28,12 @@ def caso_D():
     GPa = 1000*MPa
 	
 	#Parametros
-    L = 15.0  *m
+    L = 5.0  *m
     B = 2.0 *m
     H = 3.5 *m
-    q  = 400*kgf/m**2
-    F = q*L*B
-    F  = F/4
+    # q  = 400*kgf/m**2
+    # F = q*L*B
+    # F= F/4
 	#Inicializar modelo
     ret = Reticulado()
 	
