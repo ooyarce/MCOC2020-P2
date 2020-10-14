@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Sep 26 19:17:27 2020
-
 @author: pauli
 """
 import numpy as np
@@ -139,6 +138,3 @@ class Barra(object):
         self.R = 0.6*self.R   #cambiar y poner logica de diseño: 0.6 
         self.t = 0.6*self.t   #cambiar y poner logica de diseño
         return None
-
-      
-

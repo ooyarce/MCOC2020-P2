@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Sep 26 19:39:22 2020
-
 @author: pauli
 """
     
@@ -89,7 +88,6 @@ class Reticulado(object):
                 d= [2*ni, 2*ni+1 , 2*nj, 2*nj+1]
             else:
                 d= [3*ni, 3*ni+1 , 3*ni+2, 3*nj, 3*nj+1, 3*nj+2]
-            print (f"i: ke= {ke}\n d= {d}\n fe={fe}")
 
             for i in range(self.Ndimensiones*2):
                 p= d[i]
@@ -228,23 +226,3 @@ class Reticulado(object):
         s += f"Ndimensiones = {self.Ndimensiones}"
         
         return s
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

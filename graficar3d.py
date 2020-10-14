@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Oct  6 17:50:44 2020
-
 @author: pauli
 """
 
