@@ -29,3 +29,9 @@ Y el Fu como ØPu/Pn debe ser menor a 1 pero lo más cercano posible
 
 **Comente respecto de la nueva distribución de FU del reticulado y el peso del mismo. ¿Que cambios globales se pueden hacer para mejorar aún más el costo (peso del acero) del mismo?**
 Se logra apreciar, como era esperado, que la disminución de las dimensiones de las barras produjo un aumento de cargas en las otras barras ya que deben soportar una mayor carga, pero al mismo tiempo disminuye el peso total del puente lo que disminuye la carga muerta total. Para mejorar más el costo lo que se puede es optimizar todas las barras que no se estudiaron en este experimento.
+
+![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/1.png?raw=true)
+![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/2.png?raw=true)
+![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/3.png?raw=true)
+![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/4.png?raw=true)
+![alt_text](https://github.com/ooyarce/MCOC2020-P2/blob/master/5.png?raw=true)
